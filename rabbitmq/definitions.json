@@ -1,0 +1,28 @@
+{
+    "vhosts": [
+      { "name": "/" }
+    ],
+    "queues": [
+      {
+        "name": "alerts",
+        "vhost": "/",
+        "durable": true,
+        "arguments": {
+          "x-message-ttl": 86400000
+        }
+      }
+    ],
+    "policies": [
+      {
+        "vhost": "/",
+        "name": "alerts-ttl",
+        "pattern": "^alerts$",
+        "apply-to": "queues",
+        "definition": {
+          "message-ttl": 86400000
+        },
+        "priority": 0
+      }
+    ]
+  }
+  
