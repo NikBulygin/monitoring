@@ -31,6 +31,14 @@ services:
     environment:
       GF_SECURITY_ADMIN_USER: "admin"
       GF_SECURITY_ADMIN_PASSWORD: "admin"
+      GF_SMTP_ENABLED: "true"
+      GF_SMTP_HOST: "smtp.example.com:587"
+      GF_SMTP_USER: "user@example.com"
+      GF_SMTP_PASSWORD: "your-smtp-password"
+      GF_SMTP_FROM_ADDRESS: "grafana@example.com"
+      GF_SMTP_FROM_NAME: "Grafana"
+      GF_SMTP_SKIP_VERIFY: "false"
+      GF_SMTP_STARTTLS_POLICY: "OpportunisticStartTLS"
     volumes:
       - grafana-storage:/var/lib/grafana
     ports:
