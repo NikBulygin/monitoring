@@ -21,6 +21,20 @@ This guide explains how to backup and restore the monitoring stack components (P
 └── docker-compose.yml
 ```
 
+## Prometheus Configuration Reload
+
+After making changes to `prometheus.yml`, you can reload the configuration without restarting the service using:
+
+```bash
+# Using curl
+curl -X POST http://localhost:9090/-/reload
+
+# Or using Docker
+docker exec prometheus wget -q --post-data='' --header='Content-Type:application/json' http://localhost:9090/-/reload
+```
+
+This is possible because Prometheus is started with the `--web.enable-lifecycle` flag in the docker-compose configuration.
+
 ## Backup Process
 
 ### 1. Configuration Files Backup
