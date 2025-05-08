@@ -9,6 +9,7 @@ services:
       - '--web.enable-lifecycle'
     volumes:
       - ./prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
     ports:
       - "9090:9090"
     depends_on:
@@ -22,6 +23,7 @@ services:
       - '--config.file=/etc/alertmanager/config.yml'
     volumes:
       - ./alertmanager:/etc/alertmanager
+      - alertmanager-data:/alertmanager
     ports:
       - "9093:9093"
 
@@ -32,7 +34,8 @@ services:
       GF_SECURITY_ADMIN_USER: "admin"
       GF_SECURITY_ADMIN_PASSWORD: "admin"
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - grafana-data:/var/lib/grafana
     ports:
       - "3000:3000"
     depends_on:
@@ -47,6 +50,7 @@ services:
     volumes:
       - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
       - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - rabbitmq-data:/var/lib/rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -54,8 +58,13 @@ services:
   blackbox-exporter:
     image: prom/blackbox-exporter:latest
     container_name: blackbox-exporter
+    volumes:
+      - ./blackbox:/config
     ports:
       - "9115:9115"
 
 volumes:
-  grafana-storage: {}
+  prometheus-data:
+  alertmanager-data:
+  grafana-data:
+  rabbitmq-data:
